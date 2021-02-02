@@ -64,7 +64,7 @@ public class Handler implements RequestStreamHandler {
             ex.printStackTrace();
         }
         try {
-            Jedis jedis = new Jedis("lambda-redis.gfmdlf.0001.use2.cache.amazonaws.com");
+            Jedis jedis = new Jedis("assurance-inmem.gfmdlf.0001.use2.cache.amazonaws.com");
             // prints out "Connection Successful" if Java successfully connects to Redis server.
             System.out.println("Connection Successful");
             System.out.println("The server is running " + jedis.ping());
@@ -86,7 +86,7 @@ public class Handler implements RequestStreamHandler {
             responseBody.put("message", "New item created");
 
             JSONObject headerJson = new JSONObject();
-            headerJson.put("x-custom-header", "my custom header value");
+            headerJson.put("Content-Type", "application/json");
 
             responseJson.put("statusCode", 200);
             responseJson.put("headers", headerJson);
