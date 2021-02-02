@@ -16,4 +16,6 @@ public interface AssuranceInterface {
     public void setId(String id);
     public Double getValue();
     public void setValue(Double value);
+    public String getDescription();
+    public void setDescription(String id);
 }

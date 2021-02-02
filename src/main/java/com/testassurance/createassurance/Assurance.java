@@ -14,6 +14,7 @@ import com.google.gson.GsonBuilder;
 public class Assurance implements AssuranceInterface {
     private String assuranceName;
     private String id;
+    private String description;
     private Double value;
 
     public Assurance(String json) {
@@ -22,6 +23,7 @@ public class Assurance implements AssuranceInterface {
         this.assuranceName = request.getAssuranceName();
         this.id = request.getId();
         this.value = request.getValue();
+        this.description=request.getDescription();
     }
     @Override
     public String getAssuranceName() {
@@ -48,8 +50,19 @@ public class Assurance implements AssuranceInterface {
         this.value = value;
     }
     @Override
+    public String getDescription() {
+        return description;
+    }
+    @Override
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    
+    @Override
     public String toString() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(this);
     }
+    
 }

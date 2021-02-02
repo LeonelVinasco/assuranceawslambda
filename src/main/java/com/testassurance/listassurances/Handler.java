@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.testassurance.createassurance;
+package com.testassurance.listassurances;
 
+import com.testassurance.createassurance.Assurance;
 import com.testassurance.utils.DatabaseQueries;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
@@ -56,13 +57,13 @@ public class Handler implements RequestStreamHandler {
                 System.out.println("Stored string in redis:: "+ jedis.get(assurance.getId()));
                 
                 System.out.println(event.toJSONString());
-                responseBody.put("message", "New assurance created");
+                responseBody.put("message", "Assurance updated");
                 headerJson.put("Content-Type", "application/json");
 
                 responseJson.put("statusCode", 200);
-                responseJson.put("body", responseBody.toString());
                 DatabaseQueries db = new DatabaseQueries();
-                db.InsertAssurance(assurance);
+                JSONArray listAssurances=db.ListAssurances(assurance);
+                responseJson.put("body", listAssurances.toString());
         }else{
                 responseJson.put("statusCode", 400);
         }
