@@ -35,26 +35,46 @@ public class Handler implements RequestStreamHandler {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
          Connection conn1 = null;
         JSONObject responseJson = new JSONObject ();
-
+        JSONObject headerJson = new JSONObject();
+        
+                JSONObject responseBody = new JSONObject();
 
         try {
             JSONObject  event = (JSONObject ) parser.parse(reader);
             Jedis jedis = new Jedis("assurance-inmem.gfmdlf.0001.use2.cache.amazonaws.com");
+            headerJson.put("Content-Type", "application/json");
+            responseJson.put("headers", headerJson);
+            
             if (event.get("body") != null) {
                 Assurance assurance = new Assurance((String) event.get("body").toString());
-                 System.out.println(assurance.getAssuranceName());
-                 
-            }
-            System.out.println(event.toJSONString());
-            JSONObject responseBody = new JSONObject();
-            responseBody.put("message", "New item created");
+                System.out.println(assurance.getAssuranceName());
 
-            JSONObject headerJson = new JSONObject();
-            headerJson.put("Content-Type", "application/json");
+                System.out.println("Connection Successful");
+                String value= "'"+assurance.toString()+"'";
+                System.out.println("The server is running " + jedis.ping());
+                jedis.set(assurance.getId(), value );
 
-            responseJson.put("statusCode", 200);
-            responseJson.put("headers", headerJson);
-            responseJson.put("body", responseBody.toString());
+                System.out.println("Stored string in redis:: "+ jedis.get(assurance.getId()));
+                
+                System.out.println(event.toJSONString());
+                responseBody.put("message", "New assurance created");
+
+                
+                headerJson.put("Content-Type", "application/json");
+
+                responseJson.put("statusCode", 200);
+                responseJson.put("body", responseBody.toString());
+        }else{
+                responseBody.put("message", "New assurance created");
+
+                
+                
+
+                responseJson.put("statusCode", 400);
+               
+
+        }
+            
 
         }catch (ParseException pex) {
             responseJson.put("statusCode", 400);
