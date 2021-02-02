@@ -104,9 +104,9 @@ public class Handler implements RequestStreamHandler {
         
         
         
-        String url = "jdbc:mysql://database-1.cluster-civqhsmx6dcp.us-east-2.rds.amazonaws.com";
-        String user = "admin";
-        String passworddb = "admin12345";
+//        String url = "jdbc:mysql://database-1.cluster-civqhsmx6dcp.us-east-2.rds.amazonaws.com";
+//        String user = "admin";
+//        String passworddb = "admin12345";
 //        try (java.sql.Connection conn = DriverManager.getConnection(url, user, passworddb)) {
 // 
 //    if (conn != null) {
@@ -116,13 +116,13 @@ public class Handler implements RequestStreamHandler {
 //    System.out.println("An error occurred. Maybe user/password is invalid");
 //    ex.printStackTrace();
 //}
-        System.out.println("Initializing...");
-        System.out.println("SimpleEmail Start");
-	final String fromEmail = "AKIAS65ARX52N2TRBPX5"; //requires valid gmail id
-		final String password = "BID1w2XcTL7aq7a4HngqxMnNigqhbMhO3EzG1MSb8JIV"; // correct password for gmail id
-		final String toEmail = "leonelvinasco@gmail.com"; // can be any email id 
-		
-		System.out.println("TLSEmail Start");
+//        System.out.println("Initializing...");
+//        System.out.println("SimpleEmail Start");
+//	final String fromEmail = "AKIAS65ARX52N2TRBPX5"; //requires valid gmail id
+//		final String password = "BID1w2XcTL7aq7a4HngqxMnNigqhbMhO3EzG1MSb8JIV"; // correct password for gmail id
+//		final String toEmail = "leonelvinasco@gmail.com"; // can be any email id 
+//		
+//		System.out.println("TLSEmail Start");
 //		Properties props = new Properties();
 //		props.put("mail.smtp.host", "email-smtp.us-east-2.amazonaws.com"); //SMTP Host
 //		props.put("mail.smtp.port", "587"); //TLS Port
@@ -153,7 +153,7 @@ public class Handler implements RequestStreamHandler {
 
             if (event.get("body") != null) {
                 Assurance assurance = new Assurance((String) event.get("body").toString());
-                System.out.println(assurance.getAssuranceName());
+                System.out.println("bodyExist: "+ assurance.getAssuranceName());
                  
                 System.out.println("Connection Successful");
                 String value= "'"+assurance.toString()+"'";
@@ -173,7 +173,7 @@ public class Handler implements RequestStreamHandler {
             responseJson.put("headers", headerJson);
             responseJson.put("body", responseBody.toString());
             
-              ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("ssl://b-c45fb5f9-3015-4e76-be6c-9a1686dedd6e-1.mq.us-east-2.amazonaws.com:61617");
+             ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("ssl://b-c45fb5f9-3015-4e76-be6c-9a1686dedd6e-1.mq.us-east-2.amazonaws.com:61617");
             connectionFactory.setPassword("admin");
             connectionFactory.setUserName("administrator12345");
             javax.jms.Connection connection = connectionFactory.createConnection();
