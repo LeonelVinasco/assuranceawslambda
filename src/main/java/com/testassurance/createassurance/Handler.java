@@ -76,7 +76,7 @@ public class Handler implements RequestStreamHandler {
 
         try {
             JSONObject  event = (JSONObject ) parser.parse(reader);
-
+            Jedis jedis = new Jedis("assurance-inmem.gfmdlf.0001.use2.cache.amazonaws.com");
             if (event.get("body") != null) {
                 Assurance assurance = new Assurance((String) event.get("body").toString());
                  System.out.println(assurance.getAssuranceName());
