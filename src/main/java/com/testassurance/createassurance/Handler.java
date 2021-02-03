@@ -14,6 +14,9 @@ import redis.clients.jedis.Jedis;
 
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.advisory.DestinationSource;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
@@ -174,16 +177,23 @@ public class Handler implements RequestStreamHandler {
             responseJson.put("body", responseBody.toString());
             
              ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("ssl://b-c45fb5f9-3015-4e76-be6c-9a1686dedd6e-1.mq.us-east-2.amazonaws.com:61617");
-            connectionFactory.setPassword("admin");
-            connectionFactory.setUserName("administrator12345");
+            connectionFactory.setPassword("administrator12345");
+            connectionFactory.setUserName("admin");
             javax.jms.Connection connection = connectionFactory.createConnection();
         connection.start();
+        
+        DestinationSource destinationSource = ((ActiveMQConnection) connection).getDestinationSource();
+            Set<ActiveMQQueue> queues = destinationSource.getQueues();
+            Set<ActiveMQTopic> topics = destinationSource.getTopics();
+            System.out.println(queues);
+            System.out.println(topics);
+        
          Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
          // Create a Session
                 Session sessionBrk = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
                 // Create the destination (Topic or Queue)
-                Destination destination = sessionBrk.createQueue("TEST.FOO");
+                Destination destination = sessionBrk.createQueue("prueba");
 
                 // Create a MessageProducer from the Session to the Topic or Queue
                 MessageProducer producer = sessionBrk.createProducer(destination);
