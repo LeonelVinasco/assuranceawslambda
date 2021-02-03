@@ -6,6 +6,7 @@
 package com.testassurance.createassurance;
 
 import com.testassurance.utils.DatabaseQueries;
+import com.testassurance.utils.RabbitOps;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.runtime.Context;
@@ -19,6 +20,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+
 
 import java.io.*;
 /**
@@ -63,6 +65,8 @@ public class Handler implements RequestStreamHandler {
                 responseJson.put("body", responseBody.toString());
                 DatabaseQueries db = new DatabaseQueries();
                 db.InsertAssurance(assurance);
+                RabbitOps ro =new RabbitOps();
+                ro.Publish();
         }else{
                 responseJson.put("statusCode", 400);
         }
