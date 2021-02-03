@@ -6,6 +6,7 @@
 package com.testassurance.createassurance;
 
 import com.testassurance.utils.DatabaseQueries;
+import com.testassurance.utils.SnsOps;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.lambda.runtime.Context;
@@ -19,6 +20,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import software.amazon.awssdk.services.sns.SnsClient;
+import software.amazon.awssdk.services.sns.model.PublishRequest;
+import software.amazon.awssdk.services.sns.model.PublishResponse;
+import software.amazon.awssdk.services.sns.model.SnsException;
 
 import java.io.*;
 /**
@@ -37,6 +42,7 @@ public class Handler implements RequestStreamHandler {
         JSONObject responseJson = new JSONObject ();
         JSONObject headerJson = new JSONObject();
         JSONObject responseBody = new JSONObject();
+        SnsOps snsOps = new SnsOps();
 
         try {
             JSONObject  event = (JSONObject ) parser.parse(reader);
@@ -62,8 +68,9 @@ public class Handler implements RequestStreamHandler {
                 responseJson.put("statusCode", 200);
                 responseJson.put("body", responseBody.toString());
                 DatabaseQueries db = new DatabaseQueries();
+                snsOps.PubTopic(assurance.toString(),"arn:aws:sns:us-east-2:203810783092:newassurance");
                 db.InsertAssurance(assurance);
-        }else{
+       }else{
                 responseJson.put("statusCode", 400);
         }
         }catch (ParseException pex) {
