@@ -18,7 +18,8 @@ public class RabbitOps {
     
         
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("b-7346d7b9-b60d-41b5-8e72-fe5a481850bb.mq.us-east-2.amazonaws.com");
+        factory.setHost("b-1a2beed3-e952-4ade-8767-9e7bb77283b1.mq.us-east-2.amazonaws.com");
+        factory.setPort(5671);
         factory.setUsername("admin");
         factory.setPassword("administrator12345");
 
