@@ -56,7 +56,7 @@ public class Handler implements RequestStreamHandler {
                 System.out.println("Stored string in redis:: "+ jedis.get(assurance.getId()));
                 
                 System.out.println(event.toJSONString());
-                responseBody.put("message", "Assurance deleted");
+                responseBody.put("message", "Assurance id:"+assurance.getId()+", deleted");
                 headerJson.put("Content-Type", "application/json");
 
                 responseJson.put("statusCode", 200);
